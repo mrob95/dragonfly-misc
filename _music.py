@@ -1,4 +1,4 @@
-from dragonfly import Function, Choice, IntegerRef, Dictation, Repeat, MappingRule, Playback, Clipboard, Mimic, Key, Text
+from dragonfly import Function, Choice, IntegerRef, Dictation, Repeat, MappingRule, Playback, Clipboard, Mimic, Key, Text, Grammar
 
 class Music(MappingRule):
     mapping = {
@@ -8,12 +8,12 @@ class Music(MappingRule):
         "music next"          : Key("tracknext"),
         "music previous"      : Key("trackprev"),
         "music (pause|play)"  : Key("playpause"),
-        }
-        extras = [
-            IntegerRef("n", 1, 20),
-        ]
-        defaults = {"n": 1}
+    }
+    extras = [
+        IntegerRef("n", 1, 20),
+    ]
+    defaults = {"n": 1}
 
-
+grammar = Grammar("Music")
 grammar.add_rule(Music())
 grammar.load()

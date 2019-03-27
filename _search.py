@@ -1,4 +1,4 @@
-from dragonfly import Function, Choice, IntegerRef, Dictation, Repeat, MappingRule, Playback, Clipboard, Mimic, Key, Text
+from dragonfly import Function, Choice, IntegerRef, Dictation, Repeat, MappingRule, Playback, Clipboard, Mimic, Key, Text, Grammar
 
 from subprocess import Popen
 
@@ -52,12 +52,12 @@ class Search(MappingRule):
             Function(lambda dict: browser_search(dict, site="google")),
         "wikipedia <dict>":
             Function(lambda dict: browser_search(dict, site="wikipedia")),
-        }
-        extras = [
-            Dictation("dict"),
-        ]
-        defaults = {"n": 1}
+    }
+    extras = [
+        Dictation("dict"),
+    ]
+    defaults = {"n": 1}
 
-
+grammar = Grammar("Search")
 grammar.add_rule(Search())
 grammar.load()

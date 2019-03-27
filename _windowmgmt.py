@@ -1,10 +1,11 @@
-from dragonfly import Function, Choice, IntegerRef, Dictation, Repeat, MappingRule, Playback, Clipboard, Mimic, Key, Text
+from dragonfly import Function, Choice, IntegerRef, Dictation, Repeat, MappingRule, Playback, Clipboard, Mimic, Key, Text, Grammar
 
 # https://github.com/reckoner/pyVirtualDesktopAccessor
+import os
 from ctypes import cdll
 from win32gui import GetForegroundWindow
 def load_vda():
-    return cdll.LoadLibrary("VirtualDesktopAccessor.dll")
+    return cdll.LoadLibrary(os.path.dirname(os.path.realpath(__file__)) + "\\VirtualDesktopAccessor.dll")
 
 def window_to_desktop(n=1, follow=False):
     vda = load_vda()
@@ -67,14 +68,22 @@ class WindowMgmt(MappingRule):
             Playback([(["minimize", "window"], 0.0)]),
         "maximize":
             Playback([(["maximize", "window"], 0.0)]),
-        }
-        extras = [
-            IntegerRef("n", 1, 20),
-            Choice("direction", {"left": "left", "right": "right", "up": "up", "down": "down"})
-            Choice("direction2", {"left": "left", "right": "right", "up": "up", "down": "down"})
-        ]
-        defaults = {"n": 1, "direction2": ""}
+    }
+    extras = [
+        IntegerRef("n", 1, 20),
+        Choice("direction", {
+            "left" : "left",
+            "right": "right",
+            "up"   : "up",
+            "down" : "down"}),
+        Choice("direction2", {
+            "left" : "left",
+            "right": "right",
+            "up"   : "up",
+            "down" : "down"}),
+    ]
+    defaults = {"n": 1, "direction2": ""}
 
-
+grammar = Grammar("Window management")
 grammar.add_rule(WindowMgmt())
 grammar.load()
