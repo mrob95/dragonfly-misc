@@ -26,7 +26,7 @@ def window_to_new_desktop(follow=False):
 
 def go_to_desktop_number(n):
     vda = load_vda()
-    return vda.GoToDesktopNumber(n-1)
+    vda.GoToDesktopNumber(n-1)
 
 def close_all_workspaces():
     vda = load_vda()
