@@ -30,31 +30,30 @@ BROWSER_PATH = "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe"
 def browser_open(url):
     Popen([BROWSER_PATH, url])
 
-def browser_search(text=None, site="google"):
+def browser_search(text=None, url):
     if not text:
         _, selection = read_selected(True)
+        selection = ''.join(i for i in selection if ord(i)<128)
     else:
         selection = str(text)
-    selection = selection.replace(" ", " +")
-    if site == "google":
-        url = "https://www.google.com/search?q=" + selection
-    elif site == "wikipedia":
-        url = "https://en.wikipedia.org/w/index.php?search=" + selection
+    url = url % selection.replace(" ", "+").replace("\n", "")
     browser_open(url)
 
 class Search(MappingRule):
     mapping = {
-        "google that":
-            Function(browser_search, site="google"),
-        "(wiki | wikipedia) that":
-            Function(browser_search, site="wikipedia"),
-        "google <dict>":
-            Function(lambda dict: browser_search(dict, site="google")),
-        "wikipedia <dict>":
-            Function(lambda dict: browser_search(dict, site="wikipedia")),
+        "<search> that":
+            Function(lambda search: utilities.browser_search(url=search)),
+        "<search> <dict>":
+            Function(lambda search, dict: utilities.browser_search(dict, url=search)),
     }
     extras = [
         Dictation("dict"),
+        Choice("search", {
+            "amazon"   : "https://smile.amazon.co.uk/s?k=%s",
+            "kindle"   : "https://smile.amazon.co.uk/s?k=%s&rh=n%%3A341689031",
+            "wikipedia": "https://en.wikipedia.org/w/index.php?search=%s",
+            "google"   : "https://www.google.com/search?q=%s",
+            }),
     ]
     defaults = {"n": 1}
 
