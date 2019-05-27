@@ -44,10 +44,10 @@ class Search(MappingRule):
         "<search> that":
             Function(lambda search: utilities.browser_search(url=search)),
         "<search> <dict>":
-            Function(lambda search, dict: utilities.browser_search(dict, url=search)),
+            Function(lambda search, dgndictation: utilities.browser_search(dgndictation, url=search)),
     }
     extras = [
-        Dictation("dict"),
+        Dictation("dgndictation"),
         Choice("search", {
             "amazon"   : "https://smile.amazon.co.uk/s?k=%s",
             "kindle"   : "https://smile.amazon.co.uk/s?k=%s&rh=n%%3A341689031",
