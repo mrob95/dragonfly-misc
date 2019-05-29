@@ -24,9 +24,16 @@ def window_to_new_desktop(follow=False):
     if not follow:
         vda.GoToDesktopNumber(current)
 
+# Hacky but ensures that the window will be focused when you get there
 def go_to_desktop_number(n):
-    vda = load_vda()
-    vda.GoToDesktopNumber(n-1)
+    # vda = load_vda()
+    # vda.GoToDesktopNumber(n-1)this
+    current = vda.GetCurrentDesktopNumber() + 1
+    if n>=1 and n != current:
+        if current>n:
+            Key("wc-left/10:" + str(current-n)).execute()
+        else:
+            Key("wc-right/10:" + str(n-current)).execute()
 
 def close_all_workspaces():
     vda = load_vda()
