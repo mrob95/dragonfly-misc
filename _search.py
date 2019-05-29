@@ -43,7 +43,7 @@ class Search(MappingRule):
     mapping = {
         "<search> that":
             Function(lambda search: utilities.browser_search(url=search)),
-        "<search> <dict>":
+        "<search> <dgndictation>":
             Function(lambda search, dgndictation: utilities.browser_search(dgndictation, url=search)),
     }
     extras = [
